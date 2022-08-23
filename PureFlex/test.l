@@ -8,7 +8,44 @@
 %%
 "~*"            {BEGIN COMMENT;}
 <COMMENT>"*~"   {BEGIN INITIAL;}
-<COMMENT>.      {strcat(yyextra->sqlstr,yytext);}                   
-;               {strcat(yyextra->cypherstr,yytext); return 0;}
-.               {strcat(yyextra->cypherstr,yytext);} 
+<COMMENT>.      {strcat(yyextra->sqlstr,yytext);}
+.               {strcat(yyextra->cypherstr,yytext);}
 %%
+
+State *
+new_state_from_stdin()
+{
+    State *state = (State *)malloc(sizeof(State));
+    state->f = stdin;
+    return state;
+}
+
+State *
+new_state_from_file(const char *filename)
+{
+    State *state = (State *)malloc(sizeof(State));
+    state->f = fopen(filename, "r");
+    return state;
+}
+
+State *
+new_state_from_string(char *src)
+{
+    State *state = (State *)malloc(sizeof(State));
+    state->f = fmemopen(src, strlen(src) + 1, "r");
+    return state;
+}
+
+void Filter(State *state)
+{
+    if (shabi_yylex_init_extra(state, &state->scanner))
+    {
+        fprintf(stderr, "init alloc failed");
+        fflush(stderr);
+        exit(0);
+    }
+
+    shabi_yyset_in(state->f, state->scanner);
+    shabi_yylex(state->scanner);
+    shabi_yylex_destroy(state->scanner);
+}

@@ -16,4 +16,9 @@ typedef struct _State
     yyscan_t scanner; /* flex instance data */
 } State;
 
+extern State *new_state_from_stdin();
+extern State *new_state_from_file(const char *filename);
+extern State *new_state_from_string(char *src);
+extern void Filter(State *state);
+
 #endif /*STATE_H */
