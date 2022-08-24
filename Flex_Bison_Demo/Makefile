@@ -1,6 +1,6 @@
 .PHONY: clean mem
 
-CC := clang
+CC := gcc -std=gnu99
 CFLAGS := -g
 
 run: parser.tab.o scanner.o ast.o module.o main.o
