@@ -32,8 +32,17 @@ State *
 new_state_from_string(char *src)
 {
     State *state = (State *)malloc(sizeof(State));
+    memset(state, 0, sizeof(State));
     state->f = fmemopen(src, strlen(src) + 1, "r");
     return state;
+}
+
+void Clean(State *state)
+{
+    if (state->f)
+        fclose(state->f);
+    if (state)
+        free(state);
 }
 
 void Filter(State *state)

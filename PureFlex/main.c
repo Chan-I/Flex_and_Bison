@@ -11,5 +11,7 @@ int main()
     Filter(state);
 
     printf("\n--%s\n==%s\n", state->sqlstr, state->cypherstr);
+
+    Clean(state);
     return 0;
 }

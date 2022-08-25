@@ -10,8 +10,8 @@
 
 typedef struct _State
 {
-    char sqlstr[8192];
-    char cypherstr[8192];
+    char sqlstr[1024];
+    char cypherstr[1024];
     FILE *f;
     yyscan_t scanner; /* flex instance data */
 } State;
@@ -19,6 +19,7 @@ typedef struct _State
 extern State *new_state_from_stdin();
 extern State *new_state_from_file(const char *filename);
 extern State *new_state_from_string(char *src);
+extern void Clean(State *state);
 extern void Filter(State *state);
 
 #endif /*STATE_H */
