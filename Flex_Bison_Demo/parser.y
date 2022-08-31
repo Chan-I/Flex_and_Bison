@@ -1,9 +1,10 @@
 %define api.pure full
-%lex-param {void *scanner}
-%parse-param {void *scanner}{module *mod}
+%lex-param {module_scanner_t scanner}
+%parse-param {module_scanner_t scanner}{module *mod}
 
 %define parse.trace
 %define parse.error verbose
+%name-prefix "module_yy"
 
 %{
 #include <stdio.h>
@@ -12,7 +13,7 @@
 #include "parser.tab.h"
 #include "scanner.h"
 
-void yyerror (yyscan_t *locp, module *mod, char const *msg);
+void module_yyerror (YYLTYPE  *locp, module_scanner_t scanner, char const *msg);
 %}
 
 %code requires
@@ -38,7 +39,7 @@ void yyerror (yyscan_t *locp, module *mod, char const *msg);
 %start sexps;
 
 sexps:
-	sexp        { mod->root = $1; }
+	sexp        { mod->root = $1; };
 
 sexp:
   atom          { $$ = new_sexp_node(ST_ATOM, $1); }
@@ -55,7 +56,8 @@ atom:
 
 %%
 
-void yyerror (yyscan_t *locp, module *mod, char const *msg) {
-	fprintf(stderr, "--> %s\n", msg);
+void module_yyerror (YYLTYPE  *locp, module_scanner_t scanner, char const *msg)
+{
+  fprintf(stderr, "--> %s\n", msg);
 }
 
