@@ -3,7 +3,7 @@
 
 #define YYLTYPE int
 
-typedef void *module_scanner_t;
+typedef void *core_yyscan_t;
 
 enum atom_types
 {
@@ -58,5 +58,25 @@ struct _ast_node_sexp
 void print_node_sexp(ast_node_sexp *node);
 ast_node_sexp *new_sexp_node(enum sexp_types type, void *v);
 void delete_sexp_node(ast_node_sexp *node);
+
+typedef struct strbuf
+{
+	char *buffer;
+	int capacity;
+	int length;
+} strbuf;
+
+typedef struct module_yy_extra
+{
+	strbuf literal_buf;
+
+	// for Unicode surrogate pair
+	unsigned int high_surrogate;
+	int start_cond;
+
+	// for the location of the current token and the actual position of it
+	const char *scan_buf;
+	int last_loc;
+} module_yy_extra;
 
 #endif // __AST_H

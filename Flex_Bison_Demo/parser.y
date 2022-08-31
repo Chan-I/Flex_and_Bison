@@ -1,6 +1,6 @@
 %define api.pure full
-%lex-param {module_scanner_t scanner}
-%parse-param {module_scanner_t scanner}{module *mod}
+%lex-param {core_yyscan_t scanner}
+%parse-param {core_yyscan_t scanner}{module *mod}
 
 %define parse.trace
 %define parse.error verbose
@@ -9,17 +9,18 @@
 %{
 #include <stdio.h>
 #include "module.h"
-#include "ast.h"
 #include "parser.tab.h"
 #include "scanner.h"
 
-void module_yyerror (YYLTYPE  *locp, module_scanner_t scanner, char const *msg);
+void module_yyerror (YYLTYPE  *locp, core_yyscan_t scanner, char const *msg);
+extern int module_scanner_errmsg(const char *msg, core_yyscan_t *scanner);
+extern int module_scanner_errposition(const int location, core_yyscan_t *scanner);
 %}
 
 %code requires
 {
-#include "module.h"
 #include "ast.h"
+#include "module.h"
 }
 
 %define api.value.type union /* Generate YYSTYPE from these types:  */
@@ -56,8 +57,8 @@ atom:
 
 %%
 
-void module_yyerror (YYLTYPE  *locp, module_scanner_t scanner, char const *msg)
+void module_yyerror (YYLTYPE  *locp, core_yyscan_t scanner, char const *msg)
 {
-  fprintf(stderr, "--> %s\n", msg);
+  module_scanner_errmsg("cypher error", scanner);
 }
 
