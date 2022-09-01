@@ -1,4 +1,4 @@
-.PHONY: clean mem
+.PHONY: clean
 
 CC := gcc -std=gnu99
 CFLAGS := -g
@@ -6,8 +6,6 @@ CFLAGS := -g
 run: parser.tab.o scanner.o ast.o module.o main.o
 	$(CC) -g -o $@ $+
 
-mem:
-	valgrind --leak-check=full ./run
 
 clean:
 	rm -f run *.o parser.tab* scanner.[ch] *.output

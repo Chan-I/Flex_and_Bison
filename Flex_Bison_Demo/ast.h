@@ -1,6 +1,9 @@
 #ifndef __AST_H
 #define __AST_H
 
+#include <stdio.h>
+#include "stdlib.h"
+
 #define YYLTYPE int
 
 typedef void *core_yyscan_t;
@@ -21,6 +24,9 @@ typedef struct
 		char *string;
 	} value;
 } ast_node_atom;
+
+core_yyscan_t module_scanner_create(const char *s);
+void module_scanner_destroy(core_yyscan_t scanner);
 
 ast_node_atom *new_atom_node(enum atom_types type, void *v);
 void delete_atom_node(ast_node_atom *node);

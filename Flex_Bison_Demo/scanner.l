@@ -146,8 +146,8 @@ module_scanner_create(const char *s)
 
     // The last two YY_END_OF_BUFFER_CHAR are required by flex.
     len = strlen(s);
-    buf = malloc(len + 2);
-    memcpy(buf, s, len);
+    buf = malloc((len + 2) * sizeof(char));
+    strncpy(buf, s, len);
     buf[len] = YY_END_OF_BUFFER_CHAR;
     buf[len + 1] = YY_END_OF_BUFFER_CHAR;
 
@@ -160,10 +160,9 @@ module_scanner_create(const char *s)
     extra.start_cond = INITIAL;
     extra.scan_buf = buf;
     extra.last_loc = 0;
+
     module_yyset_extra(extra, yyscanner);
-
     module_yy_scan_buffer(buf, len + 2, yyscanner);
-
     return yyscanner;
 }
 

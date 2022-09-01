@@ -53,3 +53,20 @@ int parse_module(module *mod)
 
 	return res;
 }
+
+module *
+raw_parser(char *src)
+{
+	module *extra;
+	core_yyscan_t scanner;
+
+	scanner = module_scanner_create(src);
+
+	extra = (module *)malloc(sizeof(module));
+	extra->src = fmemopen(src, strlen(src) + 1, "r");
+
+	extra->yyresult = module_yyparse(scanner, extra);
+
+	module_scanner_destroy(scanner);
+	return extra;
+}
