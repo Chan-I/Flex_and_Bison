@@ -32,10 +32,11 @@
  * defines
  * 
  *------------------------------------------------------------------*/
-#define YY_INPUT(buf,result,max_size)  {\
-    result = GetNextChar(buf, max_size); \
-    if (  result <= 0  ) \
-      result = YY_NULL; \
+#define YY_INPUT(buf,result,max_size)           \
+    {                                           \
+        result = GetNextChar(buf, max_size);    \
+        if (  result <= 0  )                    \
+            result = YY_NULL;                   \
     }
 
 %}

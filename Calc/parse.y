@@ -43,7 +43,8 @@ static Variable *var;
 %defines
 
 /* a more advanced semantic type */
-%union {
+%union 
+{
   double      value;
   char        *string;
 }
@@ -156,11 +157,12 @@ expression
  * 
  *----------------------------------------------------------------------------*/
 extern
-void yyerror(char *s) {
+void yyerror(const char *s) 
+{
 // simple error-message
-//  printf("Error '%s'\n", s);
+  printf("Error '%s'\n", s);
 //  a more sophisticated error-function
-  PrintError(s);
+ // PrintError((char *)s);
 }
 /*--------------------------------------------------------------------
  * parse.y
