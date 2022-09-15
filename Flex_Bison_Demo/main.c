@@ -27,8 +27,13 @@ int main(int argc, char **argv)
 		}
 	}
 #else
-	char *cypher = "(add 1 2 (\"test\" 3 4) ( 5)";
+	char *cypher = "(add 1 2 (\"test\" 3 4) ))) 5)";
+
+	fprintf(stdout, "Query=# %s\n", cypher);
+	fflush(stdout);
+
 	mod = raw_parser(cypher);
+
 	if (!mod->yyresult)
 	{
 		printf("success!\n");

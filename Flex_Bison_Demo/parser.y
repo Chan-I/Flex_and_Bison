@@ -12,7 +12,7 @@
 #include "parser.tab.h"
 #include "scanner.h"
 
-void module_yyerror (YYLTYPE  *locp, core_yyscan_t scanner, char const *msg);
+void module_yyerror (core_yyscan_t scanner, module *mod, char const *msg);
 extern int module_scanner_errmsg(const char *msg, core_yyscan_t *scanner);
 extern int module_scanner_errposition(const int location, core_yyscan_t *scanner);
 %}
@@ -57,7 +57,7 @@ atom:
 
 %%
 
-void module_yyerror (YYLTYPE  *locp, core_yyscan_t scanner, char const *msg)
+void module_yyerror (core_yyscan_t scanner, module *mod, char const *msg)
 {
   module_scanner_errmsg("cypher error", scanner);
 }

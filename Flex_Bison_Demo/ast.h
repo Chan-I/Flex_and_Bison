@@ -65,23 +65,15 @@ void print_node_sexp(ast_node_sexp *node);
 ast_node_sexp *new_sexp_node(enum sexp_types type, void *v);
 void delete_sexp_node(ast_node_sexp *node);
 
-typedef struct strbuf
-{
-	char *buffer;
-	int capacity;
-	int length;
-} strbuf;
-
 typedef struct module_yy_extra
 {
-	strbuf literal_buf;
-
 	// for Unicode surrogate pair
 	unsigned int high_surrogate;
 	int start_cond;
 
 	// for the location of the current token and the actual position of it
 	const char *scan_buf;
+	int first_loc;
 	int last_loc;
 } module_yy_extra;
 
